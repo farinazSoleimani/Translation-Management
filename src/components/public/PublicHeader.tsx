@@ -14,8 +14,7 @@ export const PublicHeader = ({
     <header
       className="
         flex
-        flex-col
-        gap-4
+        justify-between
         border-b
         border-gray-100
         pb-5
@@ -25,7 +24,7 @@ export const PublicHeader = ({
       ">
       <h1
         className="
-            text-2xl
+            text-lg
             font-semibold
             tracking-tight
             text-gray-900

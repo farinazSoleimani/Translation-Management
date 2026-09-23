@@ -1,14 +1,11 @@
-import type { Language, TranslationItem } from '../../types/translation';
+import type { Language, TranslationItem } from "../../types/translation";
 
 interface TranslationCardProps {
   item: TranslationItem;
   language: Language;
 }
 
-export const TranslationCard = ({
-  item,
-  language,
-}: TranslationCardProps) => {
+export const TranslationCard = ({ item, language }: TranslationCardProps) => {
   const translation = item.translations[language];
 
   return (
@@ -24,20 +21,18 @@ export const TranslationCard = ({
         duration-200
         hover:-translate-y-0.5
         hover:shadow-md
-      "
-    >
+      ">
       <div className="min-w-0">
         <p
           className="
             truncate
-            text-xs
+            text-base
             font-medium
             uppercase
-            tracking-wider
-            text-gray-400
+            tracking-
+             text-gray-900
           "
-          title={item.keyword}
-        >
+          title={item.keyword}>
           {item.keyword}
         </p>
 
@@ -45,13 +40,14 @@ export const TranslationCard = ({
           <p
             className="
               mt-2
-              break-words
-              text-base
+              wrap-break-word
               font-medium
+              text-sm
+            text-gray-400
+
               leading-6
-              text-gray-900
-            "
-          >
+
+            ">
             {translation}
           </p>
         ) : (
@@ -61,9 +57,8 @@ export const TranslationCard = ({
               text-sm
               italic
               text-gray-400
-            "
-          >
-            No translation yet
+            ">
+            ...
           </p>
         )}
       </div>

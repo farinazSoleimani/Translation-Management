@@ -16,13 +16,15 @@ export const AddKeywordButton = ({
         justify-center
         gap-2
         rounded-lg
+        w-full
+        md:w-52
         border
         border-gray-200
-        bg-white
+        bg-blue-200
         px-5
         text-sm
         font-medium
-        text-gray-700
+        text-white
         shadow-sm
         transition
         hover:border-gray-300

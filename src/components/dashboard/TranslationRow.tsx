@@ -83,7 +83,7 @@ export const TranslationRow = ({
           type="text"
           value={value}
           onChange={handleChange}
-          placeholder="No translation yet"
+          placeholder="..."
           className={`
             h-10
             w-full

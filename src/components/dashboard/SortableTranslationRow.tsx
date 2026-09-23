@@ -1,26 +1,15 @@
 import type { ChangeEvent } from "react";
 
-import {
-  useSortable,
-} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
 
-import {
-  CSS,
-} from "@dnd-kit/utilities";
+import { CSS } from "@dnd-kit/utilities";
 
-import type {
-  Language,
-  TranslationItem,
-} from "../../types/translation";
+import type { Language, TranslationItem } from "../../types/translation";
 
 interface SortableTranslationRowProps {
   item: TranslationItem;
   language: Language;
-  onChange: (
-    id: string,
-    language: Language,
-    value: string,
-  ) => void;
+  onChange: (id: string, language: Language, value: string) => void;
 }
 
 export const SortableTranslationRow = ({
@@ -47,14 +36,8 @@ export const SortableTranslationRow = ({
 
   const value = item.translations[language];
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement>,
-  ) => {
-    onChange(
-      item.id,
-      language,
-      event.target.value,
-    );
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onChange(item.id, language, event.target.value);
   };
 
   return (
@@ -73,13 +56,8 @@ export const SortableTranslationRow = ({
         last:border-b-0
         sm:flex-row
         sm:items-center
-        ${
-          isDragging
-            ? "relative rounded-lg shadow-lg"
-            : ""
-        }
-      `}
-    >
+        ${isDragging ? "relative rounded-lg shadow-lg" : ""}
+      `}>
       <div className="flex min-w-0 items-center gap-3 sm:flex-1">
         <button
           type="button"
@@ -87,8 +65,8 @@ export const SortableTranslationRow = ({
           {...listeners}
           className="
             flex
-            h-8
-            w-8
+            h-2
+            w-2
             shrink-0
             cursor-grab
             touch-none
@@ -101,26 +79,21 @@ export const SortableTranslationRow = ({
             hover:text-gray-500
             active:cursor-grabbing
           "
-          aria-label={`Reorder ${item.keyword}`}
-        >
-          <span
-            aria-hidden="true"
-            className="text-lg leading-none"
-          >
+          aria-label={`Reorder ${item.keyword}`}>
+          <span aria-hidden="true" className="text-lg leading-none">
             ⋮⋮
           </span>
         </button>
 
         <p
-          className="
-            min-w-0
-            truncate
-            text-sm
-            font-medium
-            text-gray-800
-          "
-          title={item.keyword}
-        >
+          className={`
+    min-w-0
+    truncate
+    text-sm
+    font-medium
+    ${value ? "text-gray-800" : "text-red-500"}
+  `}
+          title={item.keyword}>
           {item.keyword}
         </p>
       </div>
@@ -130,16 +103,19 @@ export const SortableTranslationRow = ({
           type="text"
           value={value}
           onChange={handleChange}
-          placeholder="No translation yet"
+          placeholder="..."
           className={`
             h-10
             w-full
             rounded-lg
             border
-            px-3
+            text-center
             text-sm
             outline-none
             transition
+            flex
+            items-center
+
             ${
               value
                 ? `
@@ -150,12 +126,12 @@ export const SortableTranslationRow = ({
                   focus:ring-gray-100
                 `
                 : `
-                  border-red-200
-                  bg-red-50
-                  text-red-600
-                  placeholder:text-red-400
+                  bg-red-400
+                  text-white
+                  placeholder:text-red-50
                   focus:border-red-300
                   focus:ring-2
+align-middle
                   focus:ring-red-50
                 `
             }

@@ -37,42 +37,40 @@ export const LanguageSelect = ({
     <div className="relative inline-flex">
       <select
         value={value}
-        onChange={(event) =>
-          onChange(event.target.value as Language)
-        }
+        onChange={(event) => onChange(event.target.value as Language)}
         className={`
           appearance-none
           bg-transparent
-          text-sm
+          text-xs
+          h-7
           outline-none
           cursor-pointer
+border
+          border-gray-200
+rounded-md
           ${
             isManagement
               ? `
-                min-w-20
-                pl-5
-                pr-0
+                min-w-28
+                pl-4
+                pr-2
                 text-right
                 font-medium
-                text-gray-700
+                text-blue-700
               `
               : `
-                min-w-24
+                min-w-16
                 pl-0
-                pr-6
-                text-left
+                pr-4
+                text-right
                 font-medium
-                text-blue-600
+                text-blue-700
               `
           }
         `}
-        aria-label="Select language"
-      >
+        aria-label="Select language">
         {languageOptions.map((language) => (
-          <option
-            key={language.value}
-            value={language.value}
-          >
+          <option key={language.value} value={language.value}>
             {language.label}
           </option>
         ))}
