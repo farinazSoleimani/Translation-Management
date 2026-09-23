@@ -1,96 +1,124 @@
-# React + TypeScript + Vite
+# Translation Management
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A responsive translation management application built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+This project was developed as a Front-End Developer technical assignment.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The application provides two main views:
 
-## React Compiler
+- **Management Dashboard** — for managing, editing, adding, and reordering translations.
+- **Public View** — for displaying keywords and their translations to end users.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## Demo
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### Management Dashboard
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+The Management Dashboard allows the team to:
 
-## Persistence
+- View all keywords and their translations.
+- Edit translations for the selected language.
+- Add new keywords.
+- Provide a translation for one language when creating a keyword.
+- Automatically create empty translations for languages that were not provided.
+- Reorder keywords using drag and drop.
+- Persist all changes locally.
 
-The application persists the complete translation dataset in `localStorage`
-as JSON.
+### Public View
 
-Every translation edit, keyword addition, and drag-and-drop reorder updates
-the stored dataset.
+The Public View allows end users to:
 
-The selected interface language is also persisted in `localStorage`, so
-refreshing the page keeps the user's last selected language.
+- View all available keywords.
+- View their translations.
+- Switch between supported languages.
+- See an empty state when a translation is not available.
+- See keywords in the same order defined by the Management Dashboard.
 
-The application validates stored data before using it. If the stored dataset
-is missing, malformed, or corrupted, the application safely falls back to the
-initial dataset instead of breaking.;
+---
 
+# Features
 
+## Management Dashboard
 
-### 1. Why did you choose this data structure?
+- Display all predefined keywords.
+- Edit translations directly from the list.
+- Add new keywords through a dedicated modal.
+- Prevent duplicate keywords.
+- Automatically create empty translations for missing languages.
+- Drag and drop keyword reordering.
+- Keyboard-accessible reordering.
+- Persist changes to `localStorage`.
+- Restore the previous state after page reload.
 
-Each keyword is represented as an object containing a stable `id`, the
-keyword itself, and a `translations` object keyed by language code.
+---
 
-For example:
+## Public View
 
-{
-  "id": "1",
-  "keyword": "Hello",
-  "translations": {
-    "en": "Hello",
-    "fa": "سلام",
-    "de": "Hallo"
-  }
-}
+- Display keywords in a clean, readable layout.
+- Switch between English, Persian, and German.
+- Display missing translations with an empty-state message.
+- Preserve the keyword order configured in the Management Dashboard.
+- Update the displayed language immediately without a page reload.
 
-This structure keeps all translations for a keyword together and makes
-accessing a translation by language straightforward.
+---
 
-Adding a new language is also relatively simple. The language can be added
-to the supported language list, and each keyword can receive a new property
-inside `translations`. Existing keywords can initially contain an empty
-string for the new language until a translation is provided.
+# Language Selection
 
+The application supports three languages:
 
+| Code | Language |
+|------|----------|
+| `en` | English |
+| `fa` | Persian |
+| `de` | German |
 
+The language selector is implemented as a reusable component with different visual variants for the Management Dashboard and Public View to match the provided designs.
 
-### 2. How would you scale this application to thousands of keywords?
+The selected language is also persisted in `localStorage`.
 
-For a much larger dataset, the first bottleneck would likely be the
-combination of localStorage and rendering the complete keyword list on every
-update.
+Therefore, if a user selects German and refreshes the page, German remains selected.
 
-I would move persistence to a backend/database and expose paginated APIs.
-The frontend could then load only the visible portion of the dataset.
+---
 
-For the UI, I would introduce list virtualization so that thousands of
-keywords do not create thousands of DOM nodes at the same time.
+# Tech Stack
 
-Search/filtering could also be moved to the backend for large datasets.
-Translations could be cached and updates could be sent incrementally instead
-of rewriting the complete dataset.
+- **React**
+- **TypeScript**
+- **Vite**
+- **React Context API**
+- **React Hooks**
+- **React Router**
+- **Tailwind CSS**
+- **dnd-kit**
+- **Lucide React**
+- **localStorage**
 
-The current React Context approach is suitable for this assignment because
-the dataset is small. For a larger application, state updates and server
-cache management could be separated from the UI state to reduce unnecessary
-re-renders.
+---
+
+# Architecture
+
+The application follows a component-based architecture with a clear separation between:
+
+- State management
+- Business logic
+- Presentation
+- Persistence
+- Reusable UI components
+
+The translation dataset has a single source of truth provided by React Context.
+
+Both the Management Dashboard and Public View consume the same translation state.
+
+---
+
+# State Management
+
+The application uses **React Context API** to manage the translation dataset.
+
+The context exposes the following operations:
+
+```ts
+updateTranslation()
+addKeyword()
+reorderTranslations()
